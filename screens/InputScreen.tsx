@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import TopBar from '../components/TopBar';
 import PromptEntry from '../components/PromptEntry';
@@ -8,6 +8,7 @@ import LogoStylesCarousel from '../components/LogoStylesCarousel';
 import CreateButton from '../components/CreateButton';
 
 export default function InputScreen({ navigation }: any) {
+const [selectedStyle, setSelectedStyle] = useState('No Style');
   return (
     <GradientBackground>
       <SafeAreaView style={styles.container}>
@@ -16,7 +17,10 @@ export default function InputScreen({ navigation }: any) {
           <View style={styles.innerContent}>
             <PromptEntry />
             <LogoStylesHeader />
-            <LogoStylesCarousel />
+            <LogoStylesCarousel
+                selectedStyle={selectedStyle}
+                onSelectStyle={setSelectedStyle}
+            />
           </View>
         </ScrollView>
 

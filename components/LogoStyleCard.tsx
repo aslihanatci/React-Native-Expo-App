@@ -1,17 +1,21 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 
 interface LogoStyleCardProps {
   image: any;
   title: string;
+  isSelected: boolean;
+  onPress: () => void;
 }
 
-const LogoStyleCard: React.FC<LogoStyleCardProps> = ({ image, title }) => {
+const LogoStyleCard: React.FC<LogoStyleCardProps> = ({ image, title, isSelected, onPress }) => {
   return (
-    <View style={styles.card}>
-      <Image source={image} style={styles.image} resizeMode="cover" />
+    <TouchableOpacity onPress={onPress} style={styles.card}>
+      <View style={[styles.imageWrapper, isSelected && styles.selectedImageWrapper]}>
+        <Image source={image} style={styles.image} resizeMode="cover" />
+      </View>
       <Text style={styles.caption}>{title}</Text>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -25,9 +29,25 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     gap: 6,
   },
-  image: {
+  imageWrapper: {
     width: 90,
     height: 90,
+    borderRadius: 13.71,
+    overflow: 'hidden',
+    backgroundColor: '#1E1E1E',
+  },
+  selectedImageWrapper: {
+    borderWidth: 3,
+    borderColor: '#943DFF',
+    shadowColor: '#943DFF',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.5,
+    shadowRadius: 10,
+    elevation: 8,
+  },
+  image: {
+    width: '100%',
+    height: '100%',
     borderRadius: 13.71,
   },
   caption: {

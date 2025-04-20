@@ -9,7 +9,15 @@ const logoStyles = [
   { title: 'Mascot', image: require('../assets/logo-styles/Mascot.png') },
 ];
 
-const LogoStylesCarousel = () => {
+interface LogoStylesCarouselProps {
+  selectedStyle: string;
+  onSelectStyle: (style: string) => void;
+}
+
+const LogoStylesCarousel: React.FC<LogoStylesCarouselProps> = ({
+  selectedStyle,
+  onSelectStyle,
+}) => {
   return (
     <View style={styles.container}>
       <FlatList
@@ -17,7 +25,12 @@ const LogoStylesCarousel = () => {
         horizontal
         keyExtractor={(item) => item.title}
         renderItem={({ item }) => (
-          <LogoStyleCard image={item.image} title={item.title} />
+          <LogoStyleCard
+            image={item.image}
+            title={item.title}
+            isSelected={selectedStyle === item.title}
+            onPress={() => onSelectStyle(item.title)}
+          />
         )}
         ItemSeparatorComponent={() => <View style={{ width: 12 }} />}
         showsHorizontalScrollIndicator={false}
