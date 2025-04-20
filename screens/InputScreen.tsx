@@ -12,11 +12,13 @@ export default function InputScreen({ navigation }: any) {
     const [prompt, setPrompt] = useState(''); 
     const [selectedStyle, setSelectedStyle] = useState('No Style');
     const [status, setStatus] = useState<'processing' | 'done' | 'error' | null>(null);
+    const [delaySeconds, setDelaySeconds] = useState(0);
 
     const handleSubmit = () => {
         setStatus('processing');
     
         const randomDelay = Math.floor(Math.random() * 30000) + 30000; 
+        setDelaySeconds(randomDelay);
     
         setTimeout(() => {
           setStatus('done');
@@ -26,9 +28,10 @@ export default function InputScreen({ navigation }: any) {
 
   const handleChipPress = () => {
     if (status === 'done') {
-      navigation.navigate('OutputScreen', {
-        prompt,
-        selectedStyle,
+      navigation.navigate('Output', {
+        prompt: prompt,
+        logoStyle: selectedStyle,
+        logoImage: require('../assets/output-logo.jpeg')
       });
     }
   };
@@ -40,7 +43,7 @@ export default function InputScreen({ navigation }: any) {
           <TopBar />         
           <View style={styles.innerContent}>
             {status && (
-              <StatusChip status={status} onPress={handleChipPress} />
+              <StatusChip status={status} onPress={handleChipPress} delaySeconds={delaySeconds}/>
             )}
             <PromptEntry value={prompt} onChangeText={setPrompt}       />
             <LogoStylesHeader />
@@ -50,7 +53,7 @@ export default function InputScreen({ navigation }: any) {
       />
           </View>
         </ScrollView>
-        {!status && (
+        {status !== "processing" && (
         <View style={styles.createButtonWrapper}>
           <CreateButton onPress={handleSubmit} />
         </View>

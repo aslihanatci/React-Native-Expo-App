@@ -57,7 +57,7 @@ const StatusChip: React.FC<StatusChipProps> = ({ status, onPress, delaySeconds }
   };
 
   const getSubtitle = () => {
-    if (isProcessing) return `Ready in ${delaySeconds ?? '...'}s`;
+    if (isProcessing) return `Ready in ${delaySeconds ?? '...'} seconds`;
     if (isDone) return 'Tap to see it.';
     if (isError) return 'Click to try again.';
   };
