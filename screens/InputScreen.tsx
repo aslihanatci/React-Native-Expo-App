@@ -5,40 +5,45 @@ import PromptEntry from '../components/PromptEntry';
 import GradientBackground from '../components/GradientBackground';
 import LogoStylesHeader from '../components/LogoStylesHeader';
 import LogoStylesCarousel from '../components/LogoStylesCarousel';
+import CreateButton from '../components/CreateButton';
 
 export default function InputScreen({ navigation }: any) {
   return (
     <GradientBackground>
-      <SafeAreaView style={styles.safeArea}>
-        <ScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={false}>
+      <SafeAreaView style={styles.container}>
+        <ScrollView contentContainerStyle={styles.scrollContent}>
           <TopBar />
-
-          <View style={styles.content}>
+          <View style={styles.innerContent}>
             <PromptEntry />
-            <View style={styles.spacing} />
             <LogoStylesHeader />
             <LogoStylesCarousel />
-            {/* Buraya Create Button ekleyebilirsin */}
           </View>
         </ScrollView>
+
+        <View style={styles.createButtonWrapper}>
+          <CreateButton onPress={() => console.log('Create pressed')} />
+        </View>
       </SafeAreaView>
     </GradientBackground>
   );
 }
 
 const styles = StyleSheet.create({
-  safeArea: {
+  container: {
     flex: 1,
   },
-  scrollContainer: {
-    flexGrow: 1,
+  scrollContent: {
     paddingHorizontal: 16,
-    paddingBottom: 32,
+    paddingBottom: 100, 
   },
-  content: {
-    gap: 16,
+  innerContent: {
+    flexGrow: 1,
   },
-  spacing: {
-    height: 12,
+  createButtonWrapper: {
+    position: 'absolute',
+    bottom: 50,
+    left: 16,
+    right: 16,
+    alignItems: 'center',
   },
 });
