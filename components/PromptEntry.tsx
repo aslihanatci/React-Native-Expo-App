@@ -1,23 +1,36 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 
 const MAX_LENGTH = 500;
+const samplePrompts = [
+    'Draw a futuristic city on Mars.',
+    'Describe a world where gravity is reversed.',
+    'Create a logo for a sushi restaurant in space.',
+    'Imagine a cat ruling a cyberpunk kingdom.',
+    'Design a cozy cabin in the middle of a digital forest.',
+  ];
 
 const PromptEntry = () => {
   const [prompt, setPrompt] = useState('');
 
+  const handleSurprise = () => {
+    const randomPrompt = samplePrompts[Math.floor(Math.random() * samplePrompts.length)];
+    setPrompt(randomPrompt);
+  };
+
   return (
     <View style={styles.container}>
-      {/* Header */}
+ 
       <View style={styles.header}>
         <Text style={styles.title}>Enter Your Prompt</Text>
         <View style={styles.surpriseContainer}>
+        <TouchableOpacity style={styles.surpriseContainer} onPress={handleSurprise}>
           <Text style={styles.surpriseEmoji}>🎲</Text>
           <Text style={styles.surpriseText}>Surprise me</Text>
+          </TouchableOpacity>
         </View>
       </View>
 
-      {/* Prompt Box */}
       <View style={styles.promptBox}>
         <TextInput
           style={styles.textInput}
