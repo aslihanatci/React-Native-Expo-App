@@ -6,27 +6,55 @@ import GradientBackground from '../components/GradientBackground';
 import LogoStylesHeader from '../components/LogoStylesHeader';
 import LogoStylesCarousel from '../components/LogoStylesCarousel';
 import CreateButton from '../components/CreateButton';
+import StatusChip from '../components/StatusChip';
 
 export default function InputScreen({ navigation }: any) {
-const [selectedStyle, setSelectedStyle] = useState('No Style');
+    const [prompt, setPrompt] = useState(''); 
+    const [selectedStyle, setSelectedStyle] = useState('No Style');
+    const [status, setStatus] = useState<'processing' | 'done' | 'error' | null>(null);
+
+    const handleSubmit = () => {
+        setStatus('processing');
+    
+        const randomDelay = Math.floor(Math.random() * 30000) + 30000; 
+    
+        setTimeout(() => {
+          setStatus('done');
+        }, randomDelay);
+      };
+
+
+  const handleChipPress = () => {
+    if (status === 'done') {
+      navigation.navigate('OutputScreen', {
+        prompt,
+        selectedStyle,
+      });
+    }
+  };
+
   return (
     <GradientBackground>
       <SafeAreaView style={styles.container}>
         <ScrollView contentContainerStyle={styles.scrollContent}>
-          <TopBar />
+          <TopBar />         
           <View style={styles.innerContent}>
-            <PromptEntry />
+            {status && (
+              <StatusChip status={status} onPress={handleChipPress} />
+            )}
+            <PromptEntry value={prompt} onChangeText={setPrompt}       />
             <LogoStylesHeader />
             <LogoStylesCarousel
-                selectedStyle={selectedStyle}
-                onSelectStyle={setSelectedStyle}
-            />
+            selectedStyle={selectedStyle}
+            onSelectStyle={setSelectedStyle}
+      />
           </View>
         </ScrollView>
-
+        {!status && (
         <View style={styles.createButtonWrapper}>
-          <CreateButton onPress={() => console.log('Create pressed')} />
+          <CreateButton onPress={handleSubmit} />
         </View>
+        )}
       </SafeAreaView>
     </GradientBackground>
   );

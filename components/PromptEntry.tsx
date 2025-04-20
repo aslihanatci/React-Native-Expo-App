@@ -10,12 +10,18 @@ const samplePrompts = [
     'Design a cozy cabin in the middle of a digital forest.',
   ];
 
-const PromptEntry = () => {
-  const [prompt, setPrompt] = useState('');
+  interface PromptEntryProps {
+    value: string;
+    onChangeText: (text: string) => void;
+    placeholder?: string;
+  }
+
+const PromptEntry: React.FC<PromptEntryProps> = ({ value, onChangeText, placeholder }) => {
+
 
   const handleSurprise = () => {
     const randomPrompt = samplePrompts[Math.floor(Math.random() * samplePrompts.length)];
-    setPrompt(randomPrompt);
+    onChangeText(randomPrompt);
   };
 
   return (
@@ -34,14 +40,14 @@ const PromptEntry = () => {
       <View style={styles.promptBox}>
         <TextInput
           style={styles.textInput}
-          placeholder="Type your idea..."
+          placeholder={placeholder || 'Type your idea...'}
           placeholderTextColor="#9CA3AF"
           multiline
           maxLength={MAX_LENGTH}
-          value={prompt}
-          onChangeText={setPrompt}
+          value={value}
+          onChangeText={onChangeText}
         />
-        <Text style={styles.charCount}>{prompt.length}/{MAX_LENGTH}</Text>
+        <Text style={styles.charCount}>{value.length}/{MAX_LENGTH}</Text>
       </View>
     </View>
   );
