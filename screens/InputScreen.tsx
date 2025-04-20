@@ -7,6 +7,8 @@ import LogoStylesHeader from '../components/LogoStylesHeader';
 import LogoStylesCarousel from '../components/LogoStylesCarousel';
 import CreateButton from '../components/CreateButton';
 import StatusChip from '../components/StatusChip';
+import { db } from '../firebase/firebase'; 
+import { collection, addDoc } from 'firebase/firestore';
 
 export default function InputScreen({ navigation }: any) {
     const [prompt, setPrompt] = useState(''); 
@@ -14,16 +16,25 @@ export default function InputScreen({ navigation }: any) {
     const [status, setStatus] = useState<'processing' | 'done' | 'error' | null>(null);
     const [delaySeconds, setDelaySeconds] = useState(0);
 
-    const handleSubmit = () => {
-        setStatus('processing');
-    
-        const randomDelay = Math.floor(Math.random() * 30000) + 30000; 
-        setDelaySeconds(randomDelay);
-    
-        setTimeout(() => {
-          setStatus('done');
-        }, randomDelay);
-      };
+        const handleSubmit = async () => {
+            try {
+            setStatus('processing');
+              await addDoc(collection(db, 'generatedLogos'), {
+                prompt: prompt,
+                selectedStyle: selectedStyle, 
+                createdAt: new Date(),
+              });
+              const randomDelay = Math.floor(Math.random() * 30000) + 30000; 
+              setDelaySeconds(randomDelay);
+          
+              setTimeout(() => {
+                setStatus('done');
+              }, randomDelay);
+            } catch (error) {
+                setStatus('error');
+            }
+          };
+
 
 
   const handleChipPress = () => {
