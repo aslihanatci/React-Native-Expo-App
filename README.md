@@ -23,7 +23,7 @@ Designea, kullanıcıdan aldığı prompt ve stil seçimine göre yapay zekâ de
 ## 🛠 Kurulum
 
 ```bash
-git clone [(https://github.com/aslihanatci/React-Native-Expo-App.git)]
+git clone https://github.com/aslihanatci/React-Native-Expo-App.git
 cd designea
 npm install
 npx expo start
